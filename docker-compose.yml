@@ -1,0 +1,48 @@
+version: '3.7'
+services:
+
+
+  db-jail:
+    image: postgres:12
+    ports:
+      - 5432:5432
+    networks:
+      default:
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: mydb_user
+      POSTGRES_PASSWORD: mydb_secret
+
+
+  pgbouncer-jail:
+    image: bitnami/pgbouncer:1.17.0
+    restart: unless-stopped
+    environment:
+      POSTGRESQL_HOST: db-jail
+      POSTGRESQL_DATABASE: mydb
+      POSTGRESQL_USERNAME: mydb_user
+      POSTGRESQL_PASSWORD: mydb_secret
+      POSTGRESQL_PORT: 5432
+      PGBOUNCER_PORT: 6432
+      PGBOUNCER_DATABASE: mydb
+      PGBOUNCER_POOL_MODE: transaction
+    ports:
+      - 6432:6432
+    depends_on:
+      - db-jail
+
+
+  app-jail:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - 5000:5000
+    volumes:
+      - ./src/app:/project/app
+      - ./src/migrations:/project/migrations
+      - ./src/alembic.ini:/project/alembic.ini
+    depends_on:
+      - pgbouncer-jail
