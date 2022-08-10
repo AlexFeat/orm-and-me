@@ -22,11 +22,8 @@ class Config(BaseSettings):
     PG_MASTER_USER: str = "mydb_user"
     PG_MASTER_DB_NAME: str = "mydb"
     PG_MASTER_PASSWORD: str = "mydb_secret"
-    PG_MASTER_HOST: str = "db-jail"
-    PG_MASTER_PORT: int = 5432
     PGB_MASTER_PORT: int = 6432
     PGB_MASTER_HOST: str = "pgbouncer-jail"
-
 
 
     @property

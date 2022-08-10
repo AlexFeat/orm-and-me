@@ -44,5 +44,6 @@ services:
       - ./src/app:/project/app
       - ./src/migrations:/project/migrations
       - ./src/alembic.ini:/project/alembic.ini
+    command: [sh, -c, "python manage.py runserver"]
     depends_on:
       - pgbouncer-jail

@@ -26,6 +26,6 @@ COPY ./src/alembic.ini .
 COPY ./src/app ./app
 COPY ./src/manage.py .
 
-# RUN alembic upgrade head
-
-CMD ["python", "manage.py", "runserver"]
+EXPOSE 5000
+# RUN server on docker-compose
+#CMD ["python", "manage.py", "runserver"]

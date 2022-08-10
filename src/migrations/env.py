@@ -3,7 +3,6 @@ import os
 import sys
 
 from alembic import context
-from sqlalchemy import text
 from sqlalchemy.ext.asyncio import create_async_engine
 from app.settings import get_settings
 
